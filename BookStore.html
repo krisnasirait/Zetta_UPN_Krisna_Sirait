@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Book Purchasing Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="purchase-book.js"></script>
+</head>
+
+<body>
+    <h1>Book Purchasing Form</h1>
+    <form onsubmit="return purchase()">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required min="0"><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required min="0"><br><br>
+
+        <label for="discount">Discount (%):</label>
+        <input type="number" id="discount" name="discount" required min="0"><br><br>
+
+        <label for="tax">Tax (%):</label>
+        <input type="number" id="tax" name="tax" value="5" readonly disabled><br><br>
+
+        <button type="submit">Purchase</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script type="text/javascript">
+        function purchase() {
+            let form = document.forms[0];
+            let title = form.title.value;
+            let author = form.author.value;
+            let year = form.year.value;
+            let price = form.price.value;
+            let discount = form.discount.value;
+
+            if (title == "" || author == "" || year == "" || price == "" || discount == "") {
+                alert("Please fill in all fields.");
+                return false;
+            }
+
+            let yearInt = parseInt(year);
+            let priceFloat = parseFloat(price);
+            let discountFloat = parseFloat(discount);
+            let tax = parseFloat(document.getElementById("tax").value);
+
+            let bookDetails = {
+                title: title,
+                author: author,
+                year: yearInt,
+                price: priceFloat
+            };
+
+            let totalPrice = purchaseBook(bookDetails, discountFloat, tax);
+
+            let output = document.getElementById("output");
+            output.innerHTML = `<p>Total price: ${totalPrice.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</p>`;
+
+            return false;
+        }
+    </script>
+</body>
+
+</html>
