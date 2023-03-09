@@ -11,25 +11,25 @@
 <body>
     <h1>Book Purchasing Form</h1>
     <form onsubmit="return purchase()">
-        <label for="title">Title:</label>
+        <label for="title" class="form-label">Book Title:</label>
         <input type="text" id="title" name="title" required><br><br>
-
-        <label for="author">Author:</label>
+    
+        <label for="author" class="form-label">Author:</label>
         <input type="text" id="author" name="author" required><br><br>
-
-        <label for="year">Year:</label>
+    
+        <label for="year" class="form-label">Year:</label>
         <input type="number" id="year" name="year" required min="0"><br><br>
-
-        <label for="price">Price:</label>
+    
+        <label for="price" class="form-label">Price:</label>
         <input type="number" id="price" name="price" required min="0"><br><br>
-
-        <label for="discount">Discount (%):</label>
+    
+        <label for="discount" class="form-label">Discount (%):</label>
         <input type="number" id="discount" name="discount" required min="0"><br><br>
-
-        <label for="tax">Tax (%):</label>
+    
+        <label for="tax" class="form-label">Tax (%):</label>
         <input type="number" id="tax" name="tax" value="5" readonly disabled><br><br>
-
-        <button type="submit">Purchase</button>
+    
+        <button type="submit" class="form-button">Purchase</button>
     </form>
 
     <div id="output"></div>

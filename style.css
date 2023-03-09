@@ -17,7 +17,7 @@ form {
   max-width: 400px;
   width: 100%;
   margin-top: 20px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 h1 {
@@ -33,5 +33,39 @@ h1 {
 }
 
 input:focus {
-  outline: 1px solid blue;
+  outline: 1px solid #FF8C00;
+}
+
+h1 {
+  color: #87CEFA;
+  font-family: Arial, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.form-button {
+  background-color: #87CEFA;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 10px 20px;
 }
