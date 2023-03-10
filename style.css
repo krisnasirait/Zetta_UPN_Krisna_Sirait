@@ -69,3 +69,23 @@ input[type="number"] {
   font-size: 18px;
   padding: 10px 20px;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid white;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 2px solid white;
+}
+
+th {
+  border: 2px solid white;
+}
+
+tr:nth-child(even) {
+  border: 2px solid white;
+}
