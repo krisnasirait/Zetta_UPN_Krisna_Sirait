@@ -1,120 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Book Purchasing Form</title>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Book Purchase</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="purchase-book.js"></script>
-</head>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Book Purchase</h1>
+      <form id="purchase-form">
+        <label for="title">Book Title</label>
+        <input type="text" id="title" name="title" required>
 
-<body>
-    <h1>Book Purchasing Form</h1>
-    <form onsubmit="return purchase()">
-        <label for="title" class="form-label">Book Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" required>
 
-        <label for="author" class="form-label">Author:</label>
-        <input type="text" id="author" name="author" required><br><br>
+        <label for="year">Year</label>
+        <input type="number" id="year" name="year" required>
 
-        <label for="year" class="form-label">Year:</label>
-        <input type="number" id="year" name="year" required min="0"><br><br>
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" required>
 
-        <label for="price" class="form-label">Price:</label>
-        <input type="number" id="price" name="price" required min="0"><br><br>
+        <label for="discount">Discount (%)</label>
+        <input type="number" id="discount" name="discount" required>
 
-        <label for="discount" class="form-label">Discount (%):</label>
-        <input type="number" id="discount" name="discount" required min="0"><br><br>
+        <label for="term">Term</label>
+        <select id="term" name="term" required>
+          <option value="1">1 Time Payment</option>
+          <option value="2">2 Times Payment</option>
+          <option value="3">3 Times Payment</option>
+          <option value="4">4 Times Payment</option>
+          <option value="5">5 Times Payment</option>
+        </select>
 
-        <label for="term" class="form-label">Term:</label>
-        <input type="number" id="term" name="term" required min="1" value="1"><br><br>
+        <label for="stock">Stock</label>
+        <input type="number" id="stock" name="stock" required>
 
-        <label for="tax" class="form-label">Tax (%):</label>
-        <input type="number" id="tax" name="tax" value="5" readonly disabled><br><br>
+        <label for="purchased">Purchased Amount</label>
+        <input type="number" id="purchased" name="purchased" required>
 
-        <button type="submit" class="form-button">Purchase</button>
-    </form>
+        <input type="submit" value="Purchase">
+      </form>
 
-    <div id="output"></div>
+      <div id="output"></div>
+    </div>
 
-    <script type="text/javascript">
-        function purchase() {
-            let form = document.forms[0];
-            let title = form.title.value;
-            let author = form.author.value;
-            let year = form.year.value;
-            let price = form.price.value;
-            let discount = form.discount.value;
-            let term = form.term.value;
-
-            if (title == "" || author == "" || year == "" || price == "" || discount == "" || term == "") {
-                alert("Please fill in all fields.");
-                return false;
-            }
-
-            let yearInt = parseInt(year);
-            let priceFloat = parseFloat(price);
-            let discountFloat = parseFloat(discount);
-            let tax = parseFloat(document.getElementById("tax").value);
-
-            let bookDetails = {
-                title: title,
-                author: author,
-                year: yearInt,
-                price: priceFloat
-            };
-
-            let totalPrice = purchaseBook(bookDetails, discountFloat, tax, term);
-
-            let output = document.getElementById("output");
-            output.innerHTML = "";
-
-            let table = document.createElement("table");
-
-            let headerRow = document.createElement("tr");
-            let bookTitleHeader = document.createElement("th");
-            bookTitleHeader.innerText = "Book Title";
-            let authorHeader = document.createElement("th");
-            authorHeader.innerText = "Author";
-            let yearHeader = document.createElement("th");
-            yearHeader.innerText = "Year";
-            let termHeader = document.createElement("th");
-            termHeader.innerText = "Term";
-            let priceHeader = document.createElement("th");
-            priceHeader.innerText = "Price";
-            headerRow.appendChild(bookTitleHeader);
-            headerRow.appendChild(authorHeader);
-            headerRow.appendChild(yearHeader);
-            headerRow.appendChild(termHeader);
-            headerRow.appendChild(priceHeader);
-            table.appendChild(headerRow);
-
-            totalPrice.forEach((price, index) => {
-                const termIndex = index + 1;
-                let row = document.createElement("tr");
-                let bookTitleCell = document.createElement("td");
-                bookTitleCell.innerText = bookDetails.title;
-                let authorCell = document.createElement("td");
-                authorCell.innerText = bookDetails.author;
-                let yearCell = document.createElement("td");
-                yearCell.innerText = bookDetails.year;
-                let termCell = document.createElement("td");
-                termCell.innerText = `Term ${termIndex}`;
-                let priceCell = document.createElement("td");
-                priceCell.innerText = price.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
-                row.appendChild(bookTitleCell);
-                row.appendChild(authorCell);
-                row.appendChild(yearCell);
-                row.appendChild(termCell);
-                row.appendChild(priceCell);
-                table.appendChild(row);
-            });
-
-            output.appendChild(table);
-
-            return false;
-        }
-    </script>
-</body>
-
+    <script src="purchase-book.js"></script>
+  </body>
 </html>
