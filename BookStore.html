@@ -11,28 +11,35 @@
 <body>
     <h1>Book Purchasing Form</h1>
     <form onsubmit="return purchase()">
-        <label for="title" class="form-label">Book Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-
-        <label for="author" class="form-label">Author:</label>
-        <input type="text" id="author" name="author" required><br><br>
-
-        <label for="year" class="form-label">Year:</label>
-        <input type="number" id="year" name="year" required min="0"><br><br>
-
-        <label for="price" class="form-label">Price:</label>
-        <input type="number" id="price" name="price" required min="0"><br><br>
-
-        <label for="discount" class="form-label">Discount (%):</label>
-        <input type="number" id="discount" name="discount" required min="0"><br><br>
-
-        <label for="term" class="form-label">Term:</label>
-        <input type="number" id="term" name="term" required min="1" value="1"><br><br>
-
-        <label for="tax" class="form-label">Tax (%):</label>
-        <input type="number" id="tax" name="tax" value="5" readonly disabled><br><br>
-
-        <button type="submit" class="form-button">Purchase</button>
+        <form onsubmit="return purchase()">
+            <label for="title" class="form-label">Book Title:</label>
+            <input type="text" id="title" name="title" required><br><br>
+          
+            <label for="author" class="form-label">Author:</label>
+            <input type="text" id="author" name="author" required><br><br>
+          
+            <label for="year" class="form-label">Year:</label>
+            <input type="number" id="year" name="year" required min="0"><br><br>
+          
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" id="price" name="price" required min="0"><br><br>
+          
+            <label for="discount" class="form-label">Discount (%):</label>
+            <input type="number" id="discount" name="discount" required min="0"><br><br>
+          
+            <label for="tax" class="form-label">Tax (%):</label>
+            <input type="number" id="tax" name="tax" value="5" readonly disabled><br><br>
+          
+            <label for="stock" class="form-label">Stock:</label>
+            <input type="number" id="stock" name="stock" required min="0"><br><br>
+          
+            <label for="purchased" class="form-label">Amount Purchased:</label>
+            <input type="number" id="purchased" name="purchased" required min="0"><br><br>
+          
+            <button type="submit" class="form-button">Purchase</button>
+          
+            <div id="output"></div>
+          </form>
     </form>
 
     <div id="output"></div>
@@ -45,75 +52,50 @@
             let year = form.year.value;
             let price = form.price.value;
             let discount = form.discount.value;
-            let term = form.term.value;
-
-            if (title == "" || author == "" || year == "" || price == "" || discount == "" || term == "") {
-                alert("Please fill in all fields.");
-                return false;
+            let stock = form.stock.value;
+            let purchased = form.purchased.value;
+          
+            if (title == "" || author == "" || year == "" || price == "" || discount == "" || stock == "" || purchased == "") {
+              alert("Please fill in all fields.");
+              return false;
             }
-
+          
             let yearInt = parseInt(year);
             let priceFloat = parseFloat(price);
             let discountFloat = parseFloat(discount);
             let tax = parseFloat(document.getElementById("tax").value);
-
+            let stockInt = parseInt(stock);
+            let purchasedInt = parseInt(purchased);
+          
             let bookDetails = {
-                title: title,
-                author: author,
-                year: yearInt,
-                price: priceFloat
+              title: title,
+              author: author,
+              year: yearInt,
+              price: priceFloat
             };
-
-            let totalPrice = purchaseBook(bookDetails, discountFloat, tax, term);
-
+          
+            let totalPrice = 0;
+            for (let i = 1; i <= purchasedInt; i++) {
+              if (i > stockInt) {
+                alert("Sorry, the book is out of stock.");
+                break;
+              }
+          
+              totalPrice += purchaseBook(bookDetails, discountFloat, tax, stockInt, i);
+              stockInt--;
+            }
+          
             let output = document.getElementById("output");
-            output.innerHTML = "";
-
-            let table = document.createElement("table");
-
-            let headerRow = document.createElement("tr");
-            let bookTitleHeader = document.createElement("th");
-            bookTitleHeader.innerText = "Book Title";
-            let authorHeader = document.createElement("th");
-            authorHeader.innerText = "Author";
-            let yearHeader = document.createElement("th");
-            yearHeader.innerText = "Year";
-            let termHeader = document.createElement("th");
-            termHeader.innerText = "Term";
-            let priceHeader = document.createElement("th");
-            priceHeader.innerText = "Price";
-            headerRow.appendChild(bookTitleHeader);
-            headerRow.appendChild(authorHeader);
-            headerRow.appendChild(yearHeader);
-            headerRow.appendChild(termHeader);
-            headerRow.appendChild(priceHeader);
-            table.appendChild(headerRow);
-
-            totalPrice.forEach((price, index) => {
-                const termIndex = index + 1;
-                let row = document.createElement("tr");
-                let bookTitleCell = document.createElement("td");
-                bookTitleCell.innerText = bookDetails.title;
-                let authorCell = document.createElement("td");
-                authorCell.innerText = bookDetails.author;
-                let yearCell = document.createElement("td");
-                yearCell.innerText = bookDetails.year;
-                let termCell = document.createElement("td");
-                termCell.innerText = `Term ${termIndex}`;
-                let priceCell = document.createElement("td");
-                priceCell.innerText = price.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
-                row.appendChild(bookTitleCell);
-                row.appendChild(authorCell);
-                row.appendChild(yearCell);
-                row.appendChild(termCell);
-                row.appendChild(priceCell);
-                table.appendChild(row);
-            });
-
-            output.appendChild(table);
-
+            output.innerHTML = `<p>Total price: ${totalPrice.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</p>`;
+          
+            if (stockInt > 0) {
+              output.innerHTML += `<p>${stockInt} book(s) left in stock.</p>`;
+            } else {
+              output.innerHTML += `<p>The book is out of stock.</p>`;
+            }
+          
             return false;
-        }
+          }
     </script>
 </body>
 
